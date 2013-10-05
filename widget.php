@@ -37,8 +37,7 @@ class instamojo_widget extends WP_Widget{
 		wp_register_style('smallwidget', plugin_dir_url(__FILE__).'static/style.css');
 		wp_enqueue_style('smallwidget');
 		?>
-		<!--<link rel="stylesheet" href="wp-content/static/style.css" type="text/css" media="all" />-->
-		<div id="main-div">
+		<div id="small-div">
 			<div id="offer-title">
 				<h4><?php echo $offer_title;?></h4>
 			</div>

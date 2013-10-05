@@ -23,6 +23,8 @@
     }
 
     function instamojo_plugin_loaded(){
+    	require_once( INSTAMOJO_DIR . 'shortcode.php' );
+    	new instamojo_shortcode();
     	add_action('widgets_init', 'instamojo_widgets_init');	
     }
 

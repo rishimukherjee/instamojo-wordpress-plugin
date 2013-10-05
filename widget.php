@@ -34,7 +34,10 @@ class instamojo_widget extends WP_Widget{
 		$offer_base_price = $offer_array->{'offer'}->{'base_price'};
 		$offer_currency = $offer_array->{'offer'}->{'currency'};
 		echo $before_title . "Instamojo" . $after_title;
+		wp_register_style('smallwidget', plugin_dir_url(__FILE__).'static/style.css');
+		wp_enqueue_style('smallwidget');
 		?>
+		<!--<link rel="stylesheet" href="wp-content/static/style.css" type="text/css" media="all" />-->
 		<div id="main-div">
 			<div id="offer-title">
 				<h4><?php echo $offer_title;?></h4>

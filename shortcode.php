@@ -23,7 +23,7 @@ class instamojo_shortcode{
 		$offer_description = $offer_array->{'offer'}->{'description'};
 		$offer_base_price = $offer_array->{'offer'}->{'base_price'};
 		$offer_currency = $offer_array->{'offer'}->{'currency'};
-		if($atts['type'] == 'small') return $this->small_html($offer_title, $offer_base_price, $currency_html_map[$offer_currency]);
+		if($atts['type'] == 'small') return $this->small_html($offer_title, $offer_base_price, $currency_html_map[$offer_currency], $atts['instamojo_url']);
 		return "<h1>$type</h1>";
 	}
 
@@ -37,11 +37,16 @@ class instamojo_shortcode{
 		$html .= "<h4>$currency_html $offer_base_price</h4>";
 		$html .= "</div>";
 		$html .= "<div id='mojo-link'>";
-		$html .= "<form action=$offer_url target='_blank'>";
+		$html .= "<form action=\"$offer_url\" target='_blank'>";
 		$html .= "<input type='submit' value='BUY'>";
 		$html .= '</form>';
 		$html .= '</div>';
 		$html .= '</div>';
+		return $html;
+	}
+
+	function large_html($data){
+		$html = "";
 		return $html;
 	}
 }

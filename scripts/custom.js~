@@ -1,0 +1,5 @@
+window.onload = function(){
+    console.log("lol");
+    document.getElementById("wid-small-div").style.color = "\"#" + php_data.text_color + "\"";
+    document.getElementById("wid-small-div").style.background = "\"#" + php_data.bg_color + "\"";
+}

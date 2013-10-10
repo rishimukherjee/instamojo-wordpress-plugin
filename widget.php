@@ -21,6 +21,8 @@ class instamojo_widget extends WP_Widget{
 	}
 
 	function widget($args, $instance){
+		wp_register_style('widgetcss', plugin_dir_url(__FILE__).'static/style.css');
+		wp_enqueue_style('widgetcss');
 		$currency_html_map = array();
 		$currency_html_map["INR"] = "&#8377;";
 		$currency_html_map["USD"] = "&#36;";
@@ -33,22 +35,25 @@ class instamojo_widget extends WP_Widget{
 		$offer_description = $offer_array->{'offer'}->{'description'};
 		$offer_base_price = $offer_array->{'offer'}->{'base_price'};
 		$offer_currency = $offer_array->{'offer'}->{'currency'};
+		$offer_image = $offer_array->{'offer'}->{'cover_image'};
 		if ($instance['title']) {
 			echo $before_title . $instance['title'] . $after_title;
 		}
 		else{
 			echo $before_title . 'My Instamojo Product' . $after_title;
 		}
-		wp_register_style('widgetcss', plugin_dir_url(__FILE__).'static/style.css');
-		wp_enqueue_style('widgetcss');
-		$button_html = "<div id='mojo-link'><form action='".$instance['instamojo_url']."' target='_blank'><input type='submit' value='BUY'></form></div>";
+		$button_html = "<div id='wid-mojo-link'><form action='".$instance['instamojo_url']."' target='_blank'><input type='submit' value='BUY'></form></div>";
+		wp_register_script('color-script', plugin_dir_url(__FILE__).'scripts/custom.js');
+		wp_enqueue_script('color-script');
+		$data = array("text_color" => $instance['text-color'], "bg_color" => $instance['bg-color'], "button_color" => $instance['button-color']);
+		wp_localize_script('color-script', 'php_data', $data);
 		?>
-		<div id="small-div">
+		<div id="wid-small-div" onLoad="color_widget();">
 		    <?php if($instance['button_pos'] == "top") echo $button_html;?>
-			<div id="offer-title">
+			<div id="wid-offer-title">
 				<h4><?php echo $offer_title;?></h4>
 			</div>
-			<div id="currency-price">
+			<div id="wid-currency-price">
 				<h4><?php echo $currency_html_map[$offer_currency] . ' ' . $offer_base_price;?></h4>
 			</div>
 			<?php if($instance['button_pos'] == "bottom") echo $button_html;?>

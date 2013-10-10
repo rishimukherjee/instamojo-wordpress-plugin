@@ -1,6 +1,6 @@
 #wid-small-div{
 	background: rgb(0, 182, 165);
-	color:#ffffff;
+	color:#ffffff !important;
 	padding: 4px;
 	border-radius:10px;
 	width:180px;

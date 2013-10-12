@@ -78,6 +78,11 @@ class instamojo_widget extends WP_Widget{
 			$instance['instamojo_url'] = substr($instance['instamojo_url'], 0, -1);
 		$instance['button_pos'] = strip_tags($new_instance['button_pos']);
 		$instance['instamojo_url'] = strip_tags($new_instance['instamojo_url']);
+		$ch = curl_init($instance['instamojo_url']);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_exec($ch);
+		$instance['instamojo_url'] = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
+		curl_close($ch);
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['type'] = $new_instance['type'];
 		$instance['text-color'] = $new_instance['text-color'];

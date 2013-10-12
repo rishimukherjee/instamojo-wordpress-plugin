@@ -32,6 +32,10 @@ class instamojo_shortcode{
 		$offer_data["title"] = $offer_array->{'offer'}->{'title'};
 		$offer_data["description"] = $offer_array->{'offer'}->{'description'};
 		$offer_data["base_price"] = $offer_array->{'offer'}->{'base_price'};
+		$ch = curl_init($atts['instamojo_url']);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+		curl_exec($ch);
 		$offer_data["url"] = $atts['instamojo_url'];
 		$offer_data["cover_image"] = $offer_array->{'offer'}->{'cover_image'};
 		$offer_data["button_pos"] = $atts["button_pos"];

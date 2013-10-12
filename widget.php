@@ -42,28 +42,40 @@ class instamojo_widget extends WP_Widget{
 		else{
 			echo $before_title . 'My Instamojo Product' . $after_title;
 		}
-		$button_html = "<div id='wid-mojo-link'><form action='".$instance['instamojo_url']."' target='_blank'><input type='submit' value='BUY'></form></div>";
-		wp_register_script('color-script', plugin_dir_url(__FILE__).'scripts/custom.js');
+		$button_html = "<div id='mojo-link'><form action='".$instance['instamojo_url']."' target='_blank'><input type='submit' value='BUY'></form></div>";
+		/*wp_register_script('color-script', plugin_dir_url(__FILE__).'scripts/widget.js');
 		wp_enqueue_script('color-script');
 		$data = array("text_color" => $instance['text-color'], "bg_color" => $instance['bg-color'], "button_color" => $instance['button-color']);
 		wp_localize_script('color-script', 'php_data', $data);
+		*/
 		?>
-		<div id="wid-small-div" onLoad="color_widget();">
+		<div id="wid-small-div">
 		    <?php if($instance['button_pos'] == "top") echo $button_html;?>
 			<div id="wid-offer-title">
-				<h4><?php echo $offer_title;?></h4>
+			    <?php if($instance['title'] == "404 error") echo "<h4>Error in offer URL!</h4>";
+			    	  else echo "<h4>$offer_title</h4>";
+			    ?>
 			</div>
 			<div id="wid-currency-price">
 				<h4><?php echo $currency_html_map[$offer_currency] . ' ' . $offer_base_price;?></h4>
 			</div>
 			<?php if($instance['button_pos'] == "bottom") echo $button_html;?>
 		</div>
+		<script>
+			document.getElementById("wid-small-div").style.color = <?php echo  "\"#" . $instance['text-color'] . "\""?>;
+			document.getElementById("wid-small-div").style.background = <?php echo  "\"#" . $instance['bg-color'] . "\"" ?>;
+			document.getElementById('wid-small-div').style.borderRadius = "10px";
+			document.getElementById('wid-small-div').style.padding = "4px";
+			document.getElementById('wid-small-div').style.textAlign = "center";
+		</script>
 		<?php
 		echo $after_widget;
 	}
 
 	function update($new_instance, $old_instance){
 		$instance = $old_instance;
+		if(substr($instance['instamojo_url'], -1) == '/')
+			$instance['instamojo_url'] = substr($instance['instamojo_url'], 0, -1);
 		$instance['button_pos'] = strip_tags($new_instance['button_pos']);
 		$instance['instamojo_url'] = strip_tags($new_instance['instamojo_url']);
 		$instance['title'] = strip_tags($new_instance['title']);
@@ -71,6 +83,12 @@ class instamojo_widget extends WP_Widget{
 		$instance['text-color'] = $new_instance['text-color'];
 		$instance['button-color'] = $new_instance['button-color'];
 		$instance['bg-color'] = $new_instance['bg-color'];
+		$response = get_headers($instance['instamojo_url']);
+		$responce_code = substr($response[0], 9, 3);
+		if ((strpos($instance['instamojo_url'], 'www.instamojo.com') === false && $responce_code != "404") || $responce_code == "404") {
+			$instance['title'] = "404 error";
+			$instance['instamojo_url'] = "#";
+		}
 		return $instance;
 	}
 

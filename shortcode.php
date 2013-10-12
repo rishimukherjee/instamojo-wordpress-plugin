@@ -19,11 +19,11 @@ class instamojo_shortcode{
 				'instamojo_url' => '',
 				'type' => 'small',
 				'button_pos' => 'bottom',
-				'topic_color' => '000000',
-				'button_color' => 'b8e0ff',
-				'bg_color' => '1ff4be',
-				'description_color' => '000000',
-				'price_color' => '000000',
+				'topic_color' => '#000000',
+				'button_color' => '#b8e0ff',
+				'bg_color' => '#1ff4be',
+				'description_color' => '#000000',
+				'price_color' => '#000000',
 			), $atts);
 		$atts['instamojo_url'] = substr($atts['instamojo_url'], 0, -1);
 		$add_feed = (substr($atts['instamojo_url'], -1) == '/') ? "feed.json" : "/feed.json";
@@ -32,10 +32,6 @@ class instamojo_shortcode{
 		$offer_data["title"] = $offer_array->{'offer'}->{'title'};
 		$offer_data["description"] = $offer_array->{'offer'}->{'description'};
 		$offer_data["base_price"] = $offer_array->{'offer'}->{'base_price'};
-		$ch = curl_init($atts['instamojo_url']);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_exec($ch);
 		$offer_data["url"] = $atts['instamojo_url'];
 		$offer_data["cover_image"] = $offer_array->{'offer'}->{'cover_image'};
 		$offer_data["button_pos"] = $atts["button_pos"];
@@ -59,12 +55,6 @@ class instamojo_shortcode{
 		return $this->large_html($offer_currency_html, $offer_data);
 	}
 
-	function change_js($data){
-		wp_register_script('short-color-script', plugin_dir_url(__FILE__) . 'scripts/shortcode.js');
-		wp_enqueue_script('short-color-script');
-		wp_localize_script('short-color-script', 'short_php_data', $data);
-	}
-
 	function small_html($currency_html, $data){
 		$button_html = "<div id='mojo-link'><form action='".$data['url']."' target='_blank'><input type='submit' value='BUY'></form></div>";
 		$html = "";
@@ -78,8 +68,8 @@ class instamojo_shortcode{
 			$html .= "</div>";
 			if($data["button_pos"]=="bottom") $html .= $button_html;
 		$html .= '</div>';
-		$html .= "<script>document.getElementById('short-offer-title').style.color = " . '"#' . $data['topic_color'] . '";';
-		$html .= "document.getElementById('short-small-div').style.background = " . '"#' . $data['bg_color'] . '";';
+		$html .= "<script>document.getElementById('short-offer-title').style.color = " . '"' . $data['topic_color'] . '";';
+		$html .= "document.getElementById('short-small-div').style.background = " . '"' . $data['bg_color'] . '";';
 		$html .= "document.getElementById('short-small-div').style.borderRadius = " . '"10px";';
 		$html .= "document.getElementById('short-small-div').style.padding = " . '"4px";';
 		$html .= "document.getElementById('short-small-div').style.width = " . '"180px";';
@@ -106,9 +96,9 @@ class instamojo_shortcode{
 			$html .= "</div>";
 			if($data["button_pos"]=="bottom") $html .= $button_html;
 		$html .= '</div>';
-		$html .= "<script>document.getElementById('short-large-offer-title').style.color = " . '"#' . $data['topic_color'] . '";';
-		$html .= "document.getElementById('short-description').style.color = " . '"#' . $data['description_color'] . '";';
-		$html .= "document.getElementById('short-large-div').style.background = " . '"#' . $data['bg_color'] . '";';
+		$html .= "<script>document.getElementById('short-large-offer-title').style.color = " . '"' . $data['topic_color'] . '";';
+		$html .= "document.getElementById('short-description').style.color = " . '"' . $data['description_color'] . '";';
+		$html .= "document.getElementById('short-large-div').style.background = " . '"' . $data['bg_color'] . '";';
 		$html .= "document.getElementById('short-large-div').style.borderRadius = " . '"10px";';
 		$html .= "document.getElementById('short-large-div').style.padding = " . '"4px";';
 		$html .= "document.getElementById('short-large-div').style.textAlign = " . '"center";</script>';

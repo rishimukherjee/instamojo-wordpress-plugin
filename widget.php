@@ -8,6 +8,7 @@ class instamojo_widget extends WP_Widget{
 
 	function instamojo_widget(){
 		
+		add_action( 'load-widgets.php', array(&$this, 'my_custom_load') );
 		$widget_options = array(
 			'classname' => 'instamojo-widget',
 			'description' => 'Display Instamojo offers in your blog.');
@@ -19,6 +20,11 @@ class instamojo_widget extends WP_Widget{
 
 		$this->WP_Widget('instamojo-widget', 'instamojo',  $widget_options, $control_options);
 	}
+
+	function my_custom_load() {      
+        wp_enqueue_style('wp-color-picker');          
+        wp_enqueue_script('wp-color-picker');      
+    }
 
 	function widget($args, $instance){
 		wp_register_style('widgetcss', plugin_dir_url(__FILE__).'static/style.css');
@@ -62,8 +68,8 @@ class instamojo_widget extends WP_Widget{
 			<?php if($instance['button_pos'] == "bottom") echo $button_html;?>
 		</div>
 		<script>
-			document.getElementById("wid-small-div").style.color = <?php echo  "\"#" . $instance['text-color'] . "\""?>;
-			document.getElementById("wid-small-div").style.background = <?php echo  "\"#" . $instance['bg-color'] . "\"" ?>;
+			document.getElementById("wid-small-div").style.color = <?php echo  "\"" . $instance['text-color'] . "\""?>;
+			document.getElementById("wid-small-div").style.background = <?php echo  "\"" . $instance['bg-color'] . "\"" ?>;
 			document.getElementById('wid-small-div').style.borderRadius = "10px";
 			document.getElementById('wid-small-div').style.padding = "4px";
 			document.getElementById('wid-small-div').style.textAlign = "center";
@@ -101,6 +107,11 @@ class instamojo_widget extends WP_Widget{
 		$defaults = array('instamojo_url' => '', 'type' => true);
 		$instance = wp_parse_args((array)$instance, $defaults);
 		?>
+		<script type='text/javascript'>  
+    		jQuery(document).ready(function($) {  
+        	$('.my-color-picker').wpColorPicker();  
+    		});  
+		</script> 
 		<p>
 			<label for="<?php echo $this->get_field_id('title');?>">Widget Title:</label>
 			<input id="<?php echo $this->get_field_id('title');?>" 
@@ -131,21 +142,21 @@ class instamojo_widget extends WP_Widget{
 		</p>
 		<p>
 			<label for="<?php echo $this->get_field_id('text-color');?>">Text Color:</label>
-			<input class="color" id="<?php echo $this->get_field_id('text-color');?>" 
+			<input class="my-color-picker" id="<?php echo $this->get_field_id('text-color');?>" 
 				name="<?php echo $this->get_field_name('text-color');?>"
 				value="<?php echo $instance['text-color'];?>"
 			style="width:100%"/>
 		</p>
 		<p>
 			<label for="<?php echo $this->get_field_id('bg-color');?>">Background Color:</label>
-			<input class="color" id="<?php echo $this->get_field_id('bg-color');?>" 
+			<input class="my-color-picker" id="<?php echo $this->get_field_id('bg-color');?>" 
 				name="<?php echo $this->get_field_name('bg-color');?>"
 				value="<?php echo $instance['bg-color'];?>"
 			style="width:100%"/>
 		</p>
 		<p>
 			<label for="<?php echo $this->get_field_id('button-color');?>">Button Color:</label>
-			<input class="color" id="<?php echo $this->get_field_id('button-color');?>" 
+			<input class="my-color-picker" id="<?php echo $this->get_field_id('button-color');?>" 
 				name="<?php echo $this->get_field_name('button-color');?>"
 				value="<?php echo $instance['button-color'];?>"
 			style="width:100%"/>
@@ -155,10 +166,10 @@ class instamojo_widget extends WP_Widget{
 }
 
 
-add_action('admin_enqueue_scripts', 'pw_load_scripts');
+/*add_action('admin_enqueue_scripts', 'pw_load_scripts');
 
 function pw_load_scripts() {
     wp_register_script('custom-js', plugin_dir_url(__FILE__).'scripts/jscolor.js');
 	wp_enqueue_script('custom-js');
-}
+}*/
 ?>

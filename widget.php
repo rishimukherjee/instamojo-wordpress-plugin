@@ -80,8 +80,7 @@ class instamojo_widget extends WP_Widget{
 
 	function update($new_instance, $old_instance){
 		$instance = $old_instance;
-		if(substr($instance['instamojo_url'], -1) == '/')
-			$instance['instamojo_url'] = substr($instance['instamojo_url'], 0, -1);
+		$url_explode = 
 		$instance['button_pos'] = strip_tags($new_instance['button_pos']);
 		$instance['instamojo_url'] = strip_tags($new_instance['instamojo_url']);
 		$ch = curl_init($instance['instamojo_url']);
@@ -89,6 +88,12 @@ class instamojo_widget extends WP_Widget{
 		curl_exec($ch);
 		$instance['instamojo_url'] = curl_getinfo($ch, CURLINFO_EFFECTIVE_URL);
 		curl_close($ch);
+		if(substr($instance['instamojo_url'], -1) == '/')
+			$instance['instamojo_url'] = substr($instance['instamojo_url'], 0, -1);
+		if($instance['instamojo_url'][0] == 'h' && $instance['instamojo_url'][5] == 's')
+			$instance['instamojo_url'] = substr($instance['instamojo_url'], 9);
+		if($instance['instamojo_url'][0] == 'h')
+			$instance['instamojo_url'] = substr($instance['instamojo_url'], 8);
 		$instance['title'] = strip_tags($new_instance['title']);
 		$instance['type'] = $new_instance['type'];
 		$instance['text-color'] = $new_instance['text-color'];
@@ -96,10 +101,12 @@ class instamojo_widget extends WP_Widget{
 		$instance['bg-color'] = $new_instance['bg-color'];
 		$response = get_headers($instance['instamojo_url']);
 		$responce_code = substr($response[0], 9, 3);
-		if ((strpos($instance['instamojo_url'], 'www.instamojo.com') === false && $responce_code != "404") || $responce_code == "404") {
+		$url_pieces = explode("/", $instance['instamojo_url']);
+		if ((strpos($instance['instamojo_url'], 'www.instamojo.com') === false && $responce_code != "404") || $responce_code == "404" || count($url_pieces) != 3) {
 			$instance['title'] = "404 error";
 			$instance['instamojo_url'] = "#";
 		}
+		$instance['instamojo_url'] = 'https://' . $instance['instamojo_url'];
 		return $instance;
 	}
 
@@ -164,12 +171,4 @@ class instamojo_widget extends WP_Widget{
 		<?php
 	}
 }
-
-
-/*add_action('admin_enqueue_scripts', 'pw_load_scripts');
-
-function pw_load_scripts() {
-    wp_register_script('custom-js', plugin_dir_url(__FILE__).'scripts/jscolor.js');
-	wp_enqueue_script('custom-js');
-}*/
 ?>

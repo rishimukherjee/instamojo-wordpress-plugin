@@ -33,4 +33,3 @@
     	register_widget('instamojo_widget');
     }
 ?>
-

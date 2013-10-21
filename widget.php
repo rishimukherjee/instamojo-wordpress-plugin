@@ -44,26 +44,36 @@ class instamojo_widget extends WP_Widget{
 	function widget($args, $instance){
 		wp_register_style('widgetcss', plugin_dir_url(__FILE__).'static/style.css');
 		wp_enqueue_style('widgetcss');
+
+		// Holds a mapping for currency to HTML of that currency.
 		$currency_html_map = array();
 		$currency_html_map["INR"] = "&#8377;";
 		$currency_html_map["USD"] = "&#36;";
+
 		extract($args);
 		$title = apply_filters('widget_title', $instance['title']);
 		echo $before_widget;
 		$add_feed = (substr($instance['instamojo_url'], -1) == '/') ? "feed.json" : "/feed.json";
+		
+		// Getting details from the link given in instamojo_url.
 		$offer_array = json_decode(file_get_contents($instance['instamojo_url'] . $add_feed));
+		
 		$offer_title = $offer_array->{'offer'}->{'title'};
 		$offer_description = $offer_array->{'offer'}->{'description'};
 		$offer_base_price = $offer_array->{'offer'}->{'base_price'};
 		$offer_currency = $offer_array->{'offer'}->{'currency'};
 		$offer_image = $offer_array->{'offer'}->{'cover_image'};
+
+		// If title is not given make it My Instamojo Product.
 		if ($instance['title']) {
 			echo $before_title . $instance['title'] . $after_title;
 		}
 		else{
 			echo $before_title . 'My Instamojo Product' . $after_title;
 		}
-		$button_html = "<div id='mojo-link'><form action='".$instance['instamojo_url']."' target='_blank'><input type='submit' value='BUY'></form></div>";
+
+		$button_html = "<div><form action='".$instance['instamojo_url']."' target='_blank'><input id='wid-mojo-link' type='submit' value='BUY'></form></div>";
+		// Assumes that the title is never "404 error". 
 		?>
 		<div id="wid-small-div">
 		    <?php if($instance['button_pos'] == "top") echo $button_html;?>
@@ -78,6 +88,7 @@ class instamojo_widget extends WP_Widget{
 			<?php if($instance['button_pos'] == "bottom") echo $button_html;?>
 		</div>
 		<script>
+		    document.getElementById("wid-mojo-link").style.background = <?php echo  "\"" . $instance['button-color'] . "\""?>;
 			document.getElementById("wid-small-div").style.color = <?php echo  "\"" . $instance['text-color'] . "\""?>;
 			document.getElementById("wid-small-div").style.background = <?php echo  "\"" . $instance['bg-color'] . "\"" ?>;
 			document.getElementById('wid-small-div').style.borderRadius = "10px";

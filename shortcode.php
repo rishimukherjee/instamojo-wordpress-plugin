@@ -75,7 +75,7 @@ class instamojo_shortcode{
 	*	@param $data array consisting the data of the offer.
 	*/
 	function small_html($currency_html, $data){
-		$button_html = "<div id='mojo-link'><form action='".$data['url']."' target='_blank'><input type='submit' value='BUY'></form></div>";
+		$button_html = "<div><form action='".$data['url']."' target='_blank'><input id='short-mojo-link' type='submit' value='BUY'></form></div>";
 		$html = "";
 		$html .= "<div id='short-small-div'>";
 			if($data["button_pos"]=="top") $html .= $button_html;
@@ -88,6 +88,7 @@ class instamojo_shortcode{
 			if($data["button_pos"]=="bottom") $html .= $button_html;
 		$html .= '</div>';
 		$html .= "<script>document.getElementById('short-offer-title').style.color = " . '"' . $data['topic_color'] . '";';
+		$html .= "document.getElementById('short-mojo-link').style.background = " . '"' . $data['button_color'] . '";';
 		$html .= "document.getElementById('short-small-div').style.background = " . '"' . $data['bg_color'] . '";';
 		$html .= "document.getElementById('short-small-div').style.borderRadius = " . '"10px";';
 		$html .= "document.getElementById('short-small-div').style.padding = " . '"4px";';
@@ -102,7 +103,7 @@ class instamojo_shortcode{
 	*	@param $data array consisting the data of the offer.
 	*/
 	function large_html($currency_html, $data){
-		$button_html = "<div id='mojo-link'><form action='".$data['url']."' target='_blank'><input type='submit' value='BUY'></form></div>";
+		$button_html = "<div><form action='".$data['url']."' target='_blank'><input id='short-mojo-link' type='submit' value='BUY'></form></div>";
 		$html = "";
 		$html .= "<div id='short-large-div'>";
 			if($data["button_pos"]=="top") $html .= $button_html;
@@ -122,6 +123,7 @@ class instamojo_shortcode{
 		$html .= '</div>';
 		$html .= "<script>document.getElementById('short-large-offer-title').style.color = " . '"' . $data['topic_color'] . '";';
 		$html .= "document.getElementById('short-description').style.color = " . '"' . $data['description_color'] . '";';
+		$html .= "document.getElementById('short-mojo-link').style.background = " . '"' . $data['button_color'] . '";';
 		$html .= "document.getElementById('short-large-div').style.background = " . '"' . $data['bg_color'] . '";';
 		$html .= "document.getElementById('short-large-div').style.borderRadius = " . '"10px";';
 		$html .= "document.getElementById('short-large-div').style.padding = " . '"4px";';

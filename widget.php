@@ -2,30 +2,45 @@
 
 /**
 * Instamojo Widget.
+* It extends the Wordpress Widget class.
 */
 class instamojo_widget extends WP_Widget{
 
 
+	/**
+	*	Default constructor.
+	*/
 	function instamojo_widget(){
-		
+		// Load the collor picker to the site.
 		add_action( 'load-widgets.php', array(&$this, 'my_custom_load') );
+
+		// Name and class of widget.
 		$widget_options = array(
 			'classname' => 'instamojo-widget',
 			'description' => 'Display Instamojo offers in your blog.');
 
+		// Id, width and height of the widget.
 		$control_options = array(
 			'id_base' => 'instamojo-widget',
 			'width' => 300,
 			'height' => 200);
 
+		// Initialize the widget.
 		$this->WP_Widget('instamojo-widget', 'instamojo',  $widget_options, $control_options);
 	}
 
+	/**
+	*	Called in the constructor.
+	*/
 	function my_custom_load() {      
         wp_enqueue_style('wp-color-picker');          
         wp_enqueue_script('wp-color-picker');      
     }
 
+    /**
+	*	Implements thw widget() function as required by wordpress.
+	*	This is responsible for how the widget looks in your wordpress site.
+	*/
 	function widget($args, $instance){
 		wp_register_style('widgetcss', plugin_dir_url(__FILE__).'static/style.css');
 		wp_enqueue_style('widgetcss');
@@ -49,11 +64,6 @@ class instamojo_widget extends WP_Widget{
 			echo $before_title . 'My Instamojo Product' . $after_title;
 		}
 		$button_html = "<div id='mojo-link'><form action='".$instance['instamojo_url']."' target='_blank'><input type='submit' value='BUY'></form></div>";
-		/*wp_register_script('color-script', plugin_dir_url(__FILE__).'scripts/widget.js');
-		wp_enqueue_script('color-script');
-		$data = array("text_color" => $instance['text-color'], "bg_color" => $instance['bg-color'], "button_color" => $instance['button-color']);
-		wp_localize_script('color-script', 'php_data', $data);
-		*/
 		?>
 		<div id="wid-small-div">
 		    <?php if($instance['button_pos'] == "top") echo $button_html;?>
@@ -78,6 +88,10 @@ class instamojo_widget extends WP_Widget{
 		echo $after_widget;
 	}
 
+	/**
+	*	Implements the updatet() function as required by wordpress.
+	*	This works when you fill data in the widget form input from the wordpress admin. 
+	*/
 	function update($new_instance, $old_instance){
 		$instance = $old_instance;
 		$url_explode = 
@@ -110,6 +124,10 @@ class instamojo_widget extends WP_Widget{
 		return $instance;
 	}
 
+	/**
+	*	Implements thw form() function as required by wordpress.
+	* 	This is responsible for how the form in the wordpess admin looks.
+	*/
 	function form($instance){
 		$defaults = array('instamojo_url' => '', 'type' => true);
 		$instance = wp_parse_args((array)$instance, $defaults);

@@ -2,15 +2,29 @@
 
 /**
 * Instamojo Shortcode
+* Use this shortcode in your wordpress post to show your instamojo offer.
+* Example - [instamojo instamojo_url="URL" type="large" button_pos="top" 
+*            topic_color="#000000" button_color="#000000" bg_color="#000000" 
+*            bg_color="#000000" description_color="#000000" price_color="#000000"
+*           ][/instamojo]
 */
 
 
 class instamojo_shortcode{
 	
+	/**
+	* Default constructor.
+	*/
 	function __construct(){
+		//register the function add_short
 		add_shortcode( 'instamojo', array( &$this, 'add_short' ) );
 	}
 
+	/**
+	*	This is called by wordpress when the constructor is initialized.
+	* 	@param $atts array Attributs of the shortcode.
+	* 	@param $content array Content between the starting and ending shortcode tags.
+	*/
 	function add_short($atts, $content){
 		$currency_html_map = array();
 		$currency_html_map["INR"] = "&#8377;";
@@ -55,6 +69,11 @@ class instamojo_shortcode{
 		return $this->large_html($offer_currency_html, $offer_data);
 	}
 
+	/**
+	*	Utility function for the small widget.
+	*	@param $currency_html string HTML value of the currency.
+	*	@param $data array consisting the data of the offer.
+	*/
 	function small_html($currency_html, $data){
 		$button_html = "<div id='mojo-link'><form action='".$data['url']."' target='_blank'><input type='submit' value='BUY'></form></div>";
 		$html = "";
@@ -77,6 +96,11 @@ class instamojo_shortcode{
 		return $html;
 	}
 
+	/**
+	*	Utility function for the large widget.
+	*	@param $currency_html string HTML value of the currency.
+	*	@param $data array consisting the data of the offer.
+	*/
 	function large_html($currency_html, $data){
 		$button_html = "<div id='mojo-link'><form action='".$data['url']."' target='_blank'><input type='submit' value='BUY'></form></div>";
 		$html = "";

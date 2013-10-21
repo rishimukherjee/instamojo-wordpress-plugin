@@ -15,6 +15,7 @@
     define('INSTAMOJO_URL', plugin_dir_url(__FILE__));
     define('INSTAMOJO_NAME', 'INSTAMOJO');
 
+    //register the widget and the shortcode.
     register_activation_hook(__FILE__, 'instamojo_activation_hook');
     add_action('plugins_loaded', 'instamojo_plugin_loaded');
 

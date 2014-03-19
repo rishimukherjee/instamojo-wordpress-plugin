@@ -1,16 +1,16 @@
 <?php
 /*
-    Plugin Name: Instamojo
+    Plugin Name: Simplest Plugin to Sell Online - Sell Products & Downloads through Instamojo "Buy Now" button
     Plugin URI: http://www.instamojo.com
-    Description: Embed your Instamojo items directly into your wordpress site.
-    Version: 0.0.1
-    Author: instamojo.com
+    Description: Embed your Instamojo items directly into your WordPress site.
+    Version: 0.1.0
+    Author: Instamojo
     Author URI: http://www.instamojo.com
 */
     if(!defined('ABSPATH'))
     	exit;
 
-    define('INSTAMOJO_VERSION', '0.0.1');
+    define('INSTAMOJO_VERSION', '0.1.0');
     define('INSTAMOJO_DIR', plugin_dir_path(__FILE__));
     define('INSTAMOJO_URL', plugin_dir_url(__FILE__));
     define('INSTAMOJO_NAME', 'INSTAMOJO');
@@ -26,7 +26,7 @@
     function instamojo_plugin_loaded(){
     	require_once( INSTAMOJO_DIR . 'shortcode.php' );
     	new instamojo_shortcode();
-    	add_action('widgets_init', 'instamojo_widgets_init');	
+    	add_action('widgets_init', 'instamojo_widgets_init');
     }
 
     function instamojo_widgets_init(){

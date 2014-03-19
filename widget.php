@@ -33,9 +33,9 @@ class instamojo_widget extends WP_Widget{
 	*	Called in the constructor.
 	*/
 	function my_custom_load() {
-    wp_enqueue_style('wp-color-picker');
-    wp_enqueue_script('wp-color-picker');
-  }
+        wp_enqueue_style('wp-color-picker');
+        wp_enqueue_script('wp-color-picker');
+    }
 
     /**
 	*	Implements thw widget() function as required by wordpress.
@@ -88,7 +88,7 @@ class instamojo_widget extends WP_Widget{
 			<?php if($instance['button_pos'] == "bottom") echo $button_html;?>
 		</div>
 		<script>
-	    document.getElementById("wid-mojo-link").style.background = <?php echo  "\"" . $instance['button-color'] . "\""?>;
+		    document.getElementById("wid-mojo-link").style.background = <?php echo  "\"" . $instance['button-color'] . "\""?>;
 			document.getElementById("wid-small-div").style.color = <?php echo  "\"" . $instance['text-color'] . "\""?>;
 			document.getElementById("wid-small-div").style.background = <?php echo  "\"" . $instance['bg-color'] . "\"" ?>;
 			document.getElementById('wid-small-div').style.borderRadius = "10px";
@@ -140,13 +140,13 @@ class instamojo_widget extends WP_Widget{
 	* 	This is responsible for how the form in the wordpess admin looks.
 	*/
 	function form($instance){
-		$defaults = array('instamojo_url' => '', 'type' => true);
+		$defaults = array('title' => '', 'instamojo_url' => '', 'button_pos' => 'top', 'type' => true);
 		$instance = wp_parse_args((array)$instance, $defaults);
 		?>
 		<script type='text/javascript'>
-  		jQuery(document).ready(function($) {
-      	$('.my-color-picker').wpColorPicker();
-  		});
+    		jQuery(document).ready(function($) {
+        	$('.my-color-picker').wpColorPicker();
+    		});
 		</script>
 		<p>
 			<label for="<?php echo $this->get_field_id('title');?>">Widget Title:</label>

@@ -32,10 +32,10 @@ class instamojo_widget extends WP_Widget{
 	/**
 	*	Called in the constructor.
 	*/
-	function my_custom_load() {      
-        wp_enqueue_style('wp-color-picker');          
-        wp_enqueue_script('wp-color-picker');      
-    }
+	function my_custom_load() {
+    wp_enqueue_style('wp-color-picker');
+    wp_enqueue_script('wp-color-picker');
+  }
 
     /**
 	*	Implements thw widget() function as required by wordpress.
@@ -54,10 +54,10 @@ class instamojo_widget extends WP_Widget{
 		$title = apply_filters('widget_title', $instance['title']);
 		echo $before_widget;
 		$add_feed = (substr($instance['instamojo_url'], -1) == '/') ? "feed.json" : "/feed.json";
-		
+
 		// Getting details from the link given in instamojo_url.
 		$offer_array = json_decode(file_get_contents($instance['instamojo_url'] . $add_feed));
-		
+
 		$offer_title = $offer_array->{'offer'}->{'title'};
 		$offer_description = $offer_array->{'offer'}->{'description'};
 		$offer_base_price = $offer_array->{'offer'}->{'base_price'};
@@ -73,7 +73,7 @@ class instamojo_widget extends WP_Widget{
 		}
 
 		$button_html = "<div><form action='".$instance['instamojo_url']."' target='_blank'><input id='wid-mojo-link' type='submit' value='BUY'></form></div>";
-		// Assumes that the title is never "404 error". 
+		// Assumes that the title is never "404 error".
 		?>
 		<div id="wid-small-div">
 		    <?php if($instance['button_pos'] == "top") echo $button_html;?>
@@ -88,7 +88,7 @@ class instamojo_widget extends WP_Widget{
 			<?php if($instance['button_pos'] == "bottom") echo $button_html;?>
 		</div>
 		<script>
-		    document.getElementById("wid-mojo-link").style.background = <?php echo  "\"" . $instance['button-color'] . "\""?>;
+	    document.getElementById("wid-mojo-link").style.background = <?php echo  "\"" . $instance['button-color'] . "\""?>;
 			document.getElementById("wid-small-div").style.color = <?php echo  "\"" . $instance['text-color'] . "\""?>;
 			document.getElementById("wid-small-div").style.background = <?php echo  "\"" . $instance['bg-color'] . "\"" ?>;
 			document.getElementById('wid-small-div').style.borderRadius = "10px";
@@ -101,11 +101,11 @@ class instamojo_widget extends WP_Widget{
 
 	/**
 	*	Implements the updatet() function as required by wordpress.
-	*	This works when you fill data in the widget form input from the wordpress admin. 
+	*	This works when you fill data in the widget form input from the wordpress admin.
 	*/
 	function update($new_instance, $old_instance){
 		$instance = $old_instance;
-		$url_explode = 
+		$url_explode =
 		$instance['button_pos'] = strip_tags($new_instance['button_pos']);
 		$instance['instamojo_url'] = strip_tags($new_instance['instamojo_url']);
 		$ch = curl_init($instance['instamojo_url']);
@@ -143,21 +143,21 @@ class instamojo_widget extends WP_Widget{
 		$defaults = array('instamojo_url' => '', 'type' => true);
 		$instance = wp_parse_args((array)$instance, $defaults);
 		?>
-		<script type='text/javascript'>  
-    		jQuery(document).ready(function($) {  
-        	$('.my-color-picker').wpColorPicker();  
-    		});  
-		</script> 
+		<script type='text/javascript'>
+  		jQuery(document).ready(function($) {
+      	$('.my-color-picker').wpColorPicker();
+  		});
+		</script>
 		<p>
 			<label for="<?php echo $this->get_field_id('title');?>">Widget Title:</label>
-			<input id="<?php echo $this->get_field_id('title');?>" 
+			<input id="<?php echo $this->get_field_id('title');?>"
 				name="<?php echo $this->get_field_name('title');?>"
 				value="<?php echo $instance['title'];?>"
 			style="width:100%"/>
 		</p>
 		<p>
 			<label for="<?php echo $this->get_field_id('instamojo_url');?>">Instamojo Offer URL:</label>
-			<input id="<?php echo $this->get_field_id('instamojo_url');?>" 
+			<input id="<?php echo $this->get_field_id('instamojo_url');?>"
 				name="<?php echo $this->get_field_name('instamojo_url');?>"
 				value="<?php echo $instance['instamojo_url'];?>"
 			style="width:100%"/>
@@ -178,21 +178,21 @@ class instamojo_widget extends WP_Widget{
 		</p>
 		<p>
 			<label for="<?php echo $this->get_field_id('text-color');?>">Text Color:</label>
-			<input class="my-color-picker" id="<?php echo $this->get_field_id('text-color');?>" 
+			<input class="my-color-picker" id="<?php echo $this->get_field_id('text-color');?>"
 				name="<?php echo $this->get_field_name('text-color');?>"
 				value="<?php echo $instance['text-color'];?>"
 			style="width:100%"/>
 		</p>
 		<p>
 			<label for="<?php echo $this->get_field_id('bg-color');?>">Background Color:</label>
-			<input class="my-color-picker" id="<?php echo $this->get_field_id('bg-color');?>" 
+			<input class="my-color-picker" id="<?php echo $this->get_field_id('bg-color');?>"
 				name="<?php echo $this->get_field_name('bg-color');?>"
 				value="<?php echo $instance['bg-color'];?>"
 			style="width:100%"/>
 		</p>
 		<p>
 			<label for="<?php echo $this->get_field_id('button-color');?>">Button Color:</label>
-			<input class="my-color-picker" id="<?php echo $this->get_field_id('button-color');?>" 
+			<input class="my-color-picker" id="<?php echo $this->get_field_id('button-color');?>"
 				name="<?php echo $this->get_field_name('button-color');?>"
 				value="<?php echo $instance['button-color'];?>"
 			style="width:100%"/>

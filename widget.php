@@ -33,9 +33,8 @@ class instamojo_widget extends WP_Widget{
 	*	Called in the constructor.
 	*/
 	function my_custom_load() {
-        wp_enqueue_style('wp-color-picker');
-        wp_enqueue_script('wp-color-picker');
-    }
+
+  }
 
     /**
 	*	Implements thw widget() function as required by wordpress.

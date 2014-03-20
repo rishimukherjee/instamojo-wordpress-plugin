@@ -3,19 +3,19 @@
 /**
 * Instamojo Shortcode
 * Use this shortcode in your wordpress post to show your instamojo offer.
-* Example - [instamojo instamojo_url="URL" type="large" button_pos="top" 
-*            topic_color="#000000" button_color="#000000" bg_color="#000000" 
+* Example - [instamojo instamojo_url="URL" type="large" button_pos="top"
+*            topic_color="#000000" button_color="#000000" bg_color="#000000"
 *            bg_color="#000000" description_color="#000000" price_color="#000000"
 *           ][/instamojo]
 */
 
 
-class instamojo_shortcode{
-	
+class instamojo_shortcode {
+
 	/**
 	* Default constructor.
 	*/
-	function __construct(){
+	function __construct() {
 		//register the function add_short
 		add_shortcode( 'instamojo', array( &$this, 'add_short' ) );
 	}
@@ -25,7 +25,7 @@ class instamojo_shortcode{
 	* 	@param $atts array Attributs of the shortcode.
 	* 	@param $content array Content between the starting and ending shortcode tags.
 	*/
-	function add_short($atts, $content){
+	function add_short($atts, $content) {
 		$currency_html_map = array();
 		$currency_html_map["INR"] = "&#8377;";
 		$currency_html_map["USD"] = "&#36;";
@@ -41,7 +41,7 @@ class instamojo_shortcode{
 			), $atts);
 		$atts['instamojo_url'] = substr($atts['instamojo_url'], 0, -1);
 		$add_feed = (substr($atts['instamojo_url'], -1) == '/') ? "feed.json" : "/feed.json";
-		$offer_array = json_decode(file_get_contents($atts['instamojo_url'] . $add_feed));
+		$offer_array = json_decode(file_get_contents($atts['instamojo_url'].$add_feed));
 		$offer_data = array();
 		$offer_data["title"] = $offer_array->{'offer'}->{'title'};
 		$offer_data["description"] = $offer_array->{'offer'}->{'description'};
@@ -74,7 +74,7 @@ class instamojo_shortcode{
 	*	@param $currency_html string HTML value of the currency.
 	*	@param $data array consisting the data of the offer.
 	*/
-	function small_html($currency_html, $data){
+	function small_html($currency_html, $data) {
 		$button_html = "<div><form action='".$data['url']."' target='_blank'><input id='short-mojo-link' type='submit' value='BUY'></form></div>";
 		$html = "";
 		$html .= "<div id='short-small-div'>";
@@ -87,13 +87,13 @@ class instamojo_shortcode{
 			$html .= "</div>";
 			if($data["button_pos"]=="bottom") $html .= $button_html;
 		$html .= '</div>';
-		$html .= "<script>document.getElementById('short-offer-title').style.color = " . '"' . $data['topic_color'] . '";';
-		$html .= "document.getElementById('short-mojo-link').style.background = " . '"' . $data['button_color'] . '";';
-		$html .= "document.getElementById('short-small-div').style.background = " . '"' . $data['bg_color'] . '";';
-		$html .= "document.getElementById('short-small-div').style.borderRadius = " . '"10px";';
-		$html .= "document.getElementById('short-small-div').style.padding = " . '"4px";';
-		$html .= "document.getElementById('short-small-div').style.width = " . '"180px";';
-		$html .= "document.getElementById('short-small-div').style.textAlign = " . '"center";</script>';
+		$html .= "<script>document.getElementById('short-offer-title').style.color = ".'"'.$data['topic_color'].'";';
+		$html .= "document.getElementById('short-mojo-link').style.background = ".'"'.$data['button_color'].'";';
+		$html .= "document.getElementById('short-small-div').style.background = ".'"'.$data['bg_color'].'";';
+		$html .= "document.getElementById('short-small-div').style.borderRadius = ".'"10px";';
+		$html .= "document.getElementById('short-small-div').style.padding = ".'"4px";';
+		$html .= "document.getElementById('short-small-div').style.width = ".'"180px";';
+		$html .= "document.getElementById('short-small-div').style.textAlign = ".'"center";</script>';
 		return $html;
 	}
 
@@ -102,7 +102,7 @@ class instamojo_shortcode{
 	*	@param $currency_html string HTML value of the currency.
 	*	@param $data array consisting the data of the offer.
 	*/
-	function large_html($currency_html, $data){
+	function large_html($currency_html, $data) {
 		$button_html = "<div><form action='".$data['url']."' target='_blank'><input id='short-mojo-link' type='submit' value='BUY'></form></div>";
 		$html = "";
 		$html .= "<div id='short-large-div'>";
@@ -114,20 +114,20 @@ class instamojo_shortcode{
 				$html .= "<img src=".$data["cover_image"]."></img>";
 			$html .= "</div>";
 			$html .= "<div id='short-description'>";
-				$html .= "<h6>" . $data['description'] . "</h6>";
+				$html .= "<h6>".$data['description']."</h6>";
 			$html .= "</div>";
 			$html .= "<div id='short-currency-price'>";
-				$html .= "<h5>" . $currency_html . " " . $data['base_price'] . "</h5>";
+				$html .= "<h5>".$currency_html." ".$data['base_price']."</h5>";
 			$html .= "</div>";
 			if($data["button_pos"]=="bottom") $html .= $button_html;
 		$html .= '</div>';
-		$html .= "<script>document.getElementById('short-large-offer-title').style.color = " . '"' . $data['topic_color'] . '";';
-		$html .= "document.getElementById('short-description').style.color = " . '"' . $data['description_color'] . '";';
-		$html .= "document.getElementById('short-mojo-link').style.background = " . '"' . $data['button_color'] . '";';
-		$html .= "document.getElementById('short-large-div').style.background = " . '"' . $data['bg_color'] . '";';
-		$html .= "document.getElementById('short-large-div').style.borderRadius = " . '"10px";';
-		$html .= "document.getElementById('short-large-div').style.padding = " . '"4px";';
-		$html .= "document.getElementById('short-large-div').style.textAlign = " . '"center";</script>';
+		$html .= "<script>document.getElementById('short-large-offer-title').style.color = ".'"'.$data['topic_color'].'";';
+		$html .= "document.getElementById('short-description').style.color = ".'"'.$data['description_color'].'";';
+		$html .= "document.getElementById('short-mojo-link').style.background = ".'"'.$data['button_color'].'";';
+		$html .= "document.getElementById('short-large-div').style.background = ".'"'.$data['bg_color'].'";';
+		$html .= "document.getElementById('short-large-div').style.borderRadius = ".'"10px";';
+		$html .= "document.getElementById('short-large-div').style.padding = ".'"4px";';
+		$html .= "document.getElementById('short-large-div').style.textAlign = ".'"center";</script>';
 		return $html;
 	}
 }

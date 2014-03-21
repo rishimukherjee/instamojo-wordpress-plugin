@@ -1,6 +1,6 @@
 <?php
 /*
-    Plugin Name: Simplest Plugin to Sell Online - Sell Products & Downloads through Instamojo "Buy Now" button
+    Plugin Name: Instamojo
     Plugin URI: http://www.instamojo.com
     Description: Embed your Instamojo items directly into your WordPress site.
     Version: 0.1.0

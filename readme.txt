@@ -1,5 +1,5 @@
-=== Simplest Plugin to Sell Online - Sell Products & Downloads through Instamojo "Buy Now" button ===
-Contributors: rishimukherjee, instamojo
+=== Instamojo ===
+Contributors: rishimukherjee, aniketpant, instamojo
 Donate link: https://www.instamojo.com
 Tags: marketplace, ecommerce, selling
 Requires at least: 3.0.1

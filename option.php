@@ -67,6 +67,9 @@ class Instamojo_Settings_Page
   public function plugin_notices()
   {
     // Retrieve all stored options from the database
+    if(isset($_POST['submit']) or isset($_POST['revoke'])){
+      return;
+    }
     $this->_options = get_option('instamojo_credentials');
 
     // Get the Auth Token from the options
@@ -115,14 +118,6 @@ class Instamojo_Settings_Page
 
     // Get the Auth Token from the options
     $auth_token = $this->_options['auth_token'];
-    if(isset($auth_token)){
-       echo "auth_token is set<br />";
-    }
-    else{
-        echo "auth_token is not set.<br />";
-   }
-    var_dump($this->_options);
-    var_dump($_POST);
 
     // Check if the submit button was pressed and the form was submitted
     if (isset($_POST['submit']))
@@ -135,9 +130,6 @@ class Instamojo_Settings_Page
 
       // Get the POST data out
       $instamojo_credentials = $_POST['instamojo_credentials'];
-      echo "<br />";
-      var_dump($instamojo_credentials);
-      echo "<br /> isset-->".isset($instamojo_credentials);
 
       // Check if any data was sent
       if (isset($instamojo_credentials))
@@ -153,8 +145,6 @@ class Instamojo_Settings_Page
         try
         {
           $auth = $instance->apiAuth();
-          echo "<br />11111111111111111111";
-          var_dump($auth);
           $instamojo_credentials['auth_token'] = $auth['token'];
           unset($instamojo_credentials['password']);
 
@@ -188,12 +178,12 @@ class Instamojo_Settings_Page
       wp_cache_delete('message', 'instamojo-plugin');
     }
 
-    if (isset($auth_token) && !isset($auth))
+    if (isset($auth_token) && !isset($auth) && $tab =='homepage')
     {
       // Display notice if Auth Token is already stored
       echo '<div class="updated"><p>You have already authenticated your account with us. If you wish to switch accounts then enter your details again.</p></div>';
     }
-    else if(isset($auth)){
+    else if(isset($auth) && $tab == 'homepage'){
       echo '<div class="updated"><p>Thanks for authenticating your account with us.</p></div>';      
     }
     ?>

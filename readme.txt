@@ -3,8 +3,8 @@ Contributors: rishimukherjee, aniketpant, instamojo
 Donate link: https://www.instamojo.com
 Tags: commerce, e-commerce, ecommerce, online store, sell digital downloads, sell online, shop, store, wordpress ecommerce, WordPress shopping cart, sell event tickets, sell subscriptions, sell memberships, sell physical goods, payments, easy payments, payments button, widget
 Requires at least: 3.3
-Tested up to: 3.8.1
-Stable tag: 1.0.0
+Tested up to: 4.1.1
+Stable tag: 1.0.1
 License: MIT
 License URI: http://opensource.org/licenses/MIT
 
@@ -46,6 +46,9 @@ Once the plugin is installed and activated, you will be able to access a new men
 3. In case you wish to use your button in a page/post, you can generate a shortcode from the Instamojo Settings and use the same.
 
 == Changelog ==
+
+= 1.0.1 =
+* Fixed issues with authentication and revoking of tokens.
 
 = 1.0.0 =
 * Uses Instamojo API to authenticate users and retrieve their offers
